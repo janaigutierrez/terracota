@@ -1,5 +1,5 @@
 {
-  "name": "nom-del-teu-projecte",
+  "name": "terracota-web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,9 +9,24 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.263.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.8.2",
     "vite": "^7.1.2"
   },
   "dependencies": {
-    "react-router-dom": "^7.8.2"
+    "@headlessui/react": "^2.2.7",
+    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/vite": "^4.1.12",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.21",
+    "framer-motion": "^12.23.12",
+    "lucide-react": "^0.542.0",
+    "postcss": "^8.5.6",
+    "react-router-dom": "^7.8.2",
+    "tailwindcss": "^4.1.12",
+    "vite": "^7.1.2"
   }
 }
