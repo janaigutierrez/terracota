@@ -5,7 +5,6 @@ import Home from './pages/Home'
 import About from './pages/About'
 import NotFound from './pages/NotFound'
 import './styles/globals.css'
-import React from 'react'
 
 
 function App() {
