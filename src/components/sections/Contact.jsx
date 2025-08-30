@@ -80,6 +80,9 @@ const Contact = () => {
                     <motion.h2
                         variants={ANIMATION_VARIANTS.fadeInUp}
                         className="heading-lg mb-6 text-white"
+                        style={{
+                            textShadow: '2px 2px 4px rgba(0,0,0,0.8), 1px 1px 2px rgba(0,0,0,0.5)'
+                        }}
                     >
                         Vine a
                         <span className="text-cream-300"> veure'ns</span>
@@ -88,6 +91,9 @@ const Contact = () => {
                     <motion.p
                         variants={ANIMATION_VARIANTS.fadeInUp}
                         className="text-large text-cream-200 max-w-2xl mx-auto"
+                        style={{
+                            textShadow: '2px 2px 4px rgba(0,0,0,0.8), 1px 1px 2px rgba(0,0,0,0.5)'
+                        }}
                     >
                         Tens dubtes? Vols reservar? O simplement vols saludar?
                         T'esperem amb els braços oberts a Terracotta!
@@ -107,6 +113,9 @@ const Contact = () => {
                         <motion.h3
                             variants={ANIMATION_VARIANTS.fadeInUp}
                             className="heading-md text-white mb-6"
+                            style={{
+                                textShadow: '2px 2px 4px rgba(0,0,0,0.8), 1px 1px 2px rgba(0,0,0,0.5)'
+                            }}
                         >
                             Contacta amb nosaltres
                         </motion.h3>
@@ -219,8 +228,8 @@ const Contact = () => {
                                             <div
                                                 key={schedule.day}
                                                 className={`flex justify-between items-center py-2 px-3 rounded-lg transition-all ${schedule.isToday
-                                                        ? 'bg-terracotta-500/30 border border-terracotta-400'
-                                                        : 'hover:bg-white/5'
+                                                    ? 'bg-terracotta-500/30 border border-terracotta-400'
+                                                    : 'hover:bg-white/5'
                                                     }`}
                                             >
                                                 <span className={`font-medium ${schedule.isToday ? 'text-white' : 'text-cream-200'
@@ -231,10 +240,10 @@ const Contact = () => {
                                                     )}
                                                 </span>
                                                 <span className={`text-sm ${schedule.hours === 'Tancat'
-                                                        ? 'text-cream-400'
-                                                        : schedule.isToday
-                                                            ? 'text-cream-100 font-medium'
-                                                            : 'text-cream-300'
+                                                    ? 'text-cream-400'
+                                                    : schedule.isToday
+                                                        ? 'text-cream-100 font-medium'
+                                                        : 'text-cream-300'
                                                     }`}>
                                                     {schedule.hours}
                                                 </span>

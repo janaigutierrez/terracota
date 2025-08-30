@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Phone } from 'lucide-react'
 import { NAV_LINKS, SITE_CONFIG } from '../../utils/constants'
+import LanguageSelector from '../common/LanguageSelector'
 import React from 'react'
 
 const Header = ({ isScrolled }) => {
@@ -41,11 +42,8 @@ const Header = ({ isScrolled }) => {
         >
             <nav className="container-custom px-4 py-3">
                 <div className="flex items-center justify-between">
-                    {/* Logo - més petit */}
-                    <Link
-                        to="/"
-                        className="flex items-center space-x-2 group"
-                    >
+                    {/* Logo */}
+                    <Link to="/" className="flex items-center space-x-2 group">
                         <motion.div
                             className="w-8 h-8 bg-gradient-to-br from-terracotta-400 to-terracotta-600 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-md group-hover:shadow-lg transition-all duration-200"
                             whileHover={{ rotate: 5, scale: 1.05 }}
@@ -57,7 +55,7 @@ const Header = ({ isScrolled }) => {
                         </span>
                     </Link>
 
-                    {/* Desktop Navigation - text més petit */}
+                    {/* Desktop Navigation */}
                     <div className="hidden lg:flex items-center space-x-6">
                         {NAV_LINKS.map((link) => (
                             <div key={link.name}>
@@ -82,8 +80,14 @@ const Header = ({ isScrolled }) => {
                         ))}
                     </div>
 
-                    {/* CTA Button & Mobile Menu - més compacte */}
+                    {/* CTA, Language & Mobile Menu */}
                     <div className="flex items-center space-x-3">
+                        {/* Language Selector - només desktop */}
+                        <div className="hidden md:block">
+                            <LanguageSelector showText={false} />
+                        </div>
+
+                        {/* CTA Button */}
                         <a
                             href={`tel:${SITE_CONFIG.phone}`}
                             className="hidden sm:flex items-center space-x-2 bg-terracotta-500 hover:bg-terracotta-600 text-white px-4 py-2 rounded-md font-medium transition-all duration-200 text-sm shadow-md hover:shadow-lg"
@@ -102,7 +106,7 @@ const Header = ({ isScrolled }) => {
                     </div>
                 </div>
 
-                {/* Mobile Menu - padding reduït */}
+                {/* Mobile Menu */}
                 <AnimatePresence>
                     {isMobileMenuOpen && (
                         <motion.div
@@ -134,6 +138,11 @@ const Header = ({ isScrolled }) => {
                                             )}
                                         </div>
                                     ))}
+
+                                    {/* Language selector mòbil */}
+                                    <div className="border-t border-terracotta-100 pt-3 md:hidden">
+                                        <LanguageSelector showText={true} className="justify-center" />
+                                    </div>
 
                                     <a
                                         href={`tel:${SITE_CONFIG.phone}`}
