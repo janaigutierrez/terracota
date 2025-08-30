@@ -5,17 +5,14 @@ import { Menu, X, Phone } from 'lucide-react'
 import { NAV_LINKS, SITE_CONFIG } from '../../utils/constants'
 import React from 'react'
 
-
 const Header = ({ isScrolled }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const location = useLocation()
 
     const scrollToSection = (sectionId) => {
         if (location.pathname !== '/') {
-            // Si no estem a home, navegar primer
             window.location.href = `/#${sectionId}`
         } else {
-            // Si estem a home, fer scroll
             const element = document.getElementById(sectionId)
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth' })
@@ -38,36 +35,36 @@ const Header = ({ isScrolled }) => {
                 ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-terracotta-100'
                 : 'bg-transparent'
                 }`}
-            initial={{ y: -100 }}
+            initial={{ y: -80 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.6 }}
         >
-            <nav className="container-custom section-padding py-4">
+            <nav className="container-custom px-4 py-3">
                 <div className="flex items-center justify-between">
-                    {/* Logo */}
+                    {/* Logo - més petit */}
                     <Link
                         to="/"
                         className="flex items-center space-x-2 group"
                     >
                         <motion.div
-                            className="w-10 h-10 bg-gradient-to-br from-terracotta-400 to-terracotta-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:shadow-xl transition-all duration-200"
+                            className="w-8 h-8 bg-gradient-to-br from-terracotta-400 to-terracotta-600 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-md group-hover:shadow-lg transition-all duration-200"
                             whileHover={{ rotate: 5, scale: 1.05 }}
                         >
                             T
                         </motion.div>
-                        <span className="text-2xl font-bold text-clay-800 group-hover:text-terracotta-600 transition-colors">
+                        <span className="text-xl font-bold text-clay-800 group-hover:text-terracotta-600 transition-colors">
                             {SITE_CONFIG.name}
                         </span>
                     </Link>
 
-                    {/* Desktop Navigation */}
-                    <div className="hidden lg:flex items-center space-x-8">
+                    {/* Desktop Navigation - text més petit */}
+                    <div className="hidden lg:flex items-center space-x-6">
                         {NAV_LINKS.map((link) => (
                             <div key={link.name}>
                                 {link.href.startsWith('#') ? (
                                     <button
                                         onClick={() => scrollToSection(link.id)}
-                                        className="text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 relative group"
+                                        className="text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 relative group text-sm"
                                     >
                                         {link.name}
                                         <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-terracotta-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
@@ -75,7 +72,7 @@ const Header = ({ isScrolled }) => {
                                 ) : (
                                     <Link
                                         to={link.href}
-                                        className="text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 relative group"
+                                        className="text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 relative group text-sm"
                                     >
                                         {link.name}
                                         <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-terracotta-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
@@ -85,11 +82,11 @@ const Header = ({ isScrolled }) => {
                         ))}
                     </div>
 
-                    {/* CTA Button & Mobile Menu */}
-                    <div className="flex items-center space-x-4">
+                    {/* CTA Button & Mobile Menu - més compacte */}
+                    <div className="flex items-center space-x-3">
                         <a
                             href={`tel:${SITE_CONFIG.phone}`}
-                            className="hidden sm:flex items-center space-x-2 btn-primary"
+                            className="hidden sm:flex items-center space-x-2 bg-terracotta-500 hover:bg-terracotta-600 text-white px-4 py-2 rounded-md font-medium transition-all duration-200 text-sm shadow-md hover:shadow-lg"
                         >
                             <Phone className="w-4 h-4" />
                             <span>Reservar</span>
@@ -100,12 +97,12 @@ const Header = ({ isScrolled }) => {
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="lg:hidden p-2 text-clay-700 hover:text-terracotta-600 transition-colors"
                         >
-                            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                         </button>
                     </div>
                 </div>
 
-                {/* Mobile Menu */}
+                {/* Mobile Menu - padding reduït */}
                 <AnimatePresence>
                     {isMobileMenuOpen && (
                         <motion.div
@@ -115,14 +112,14 @@ const Header = ({ isScrolled }) => {
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <div className="container-custom py-6">
-                                <div className="flex flex-col space-y-4">
+                            <div className="container-custom py-4 px-4">
+                                <div className="flex flex-col space-y-3">
                                     {NAV_LINKS.map((link) => (
                                         <div key={link.name}>
                                             {link.href.startsWith('#') ? (
                                                 <button
                                                     onClick={() => handleNavClick(link)}
-                                                    className="block text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 py-2"
+                                                    className="block text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 py-2 text-left"
                                                 >
                                                     {link.name}
                                                 </button>
@@ -140,7 +137,7 @@ const Header = ({ isScrolled }) => {
 
                                     <a
                                         href={`tel:${SITE_CONFIG.phone}`}
-                                        className="btn-primary inline-flex items-center space-x-2 mt-4"
+                                        className="bg-terracotta-500 hover:bg-terracotta-600 text-white px-4 py-3 rounded-md font-medium transition-all duration-200 text-sm shadow-md inline-flex items-center space-x-2 mt-2"
                                     >
                                         <Phone className="w-4 h-4" />
                                         <span>Reservar ara</span>

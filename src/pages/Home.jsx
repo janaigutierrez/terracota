@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import SEO from '../components/common/SEO'
 import Hero from '../components/sections/Hero'
 import About from '../components/sections/About'
 import Spaces from '../components/sections/Spaces'
@@ -9,55 +10,60 @@ import Booking from '../components/sections/Booking'
 import Contact from '../components/sections/Contact'
 import React from 'react'
 
-
 const Home = () => {
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-        >
-            {/* Hero Section */}
-            <section id="home">
-                <Hero />
-            </section>
+        <>
+            <SEO
+                title="Inici"
+                description="Paint-your-own pottery i cafeteria a Granollers. Crea la teva obra d'art ceràmica única mentre gaudeixes d'un bon cafè en un ambient relaxant."
+                keywords="ceràmica, pottery, Granollers, cafeteria, paint your own, taller ceràmica, activitat família, Vallès Oriental"
+            />
 
-            {/* About Section */}
-            <section id="about">
-                <About />
-            </section>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6 }}
+            >
+                {/* Hero Section */}
+                <section id="home">
+                    <Hero />
+                </section>
 
-            {/* Spaces Section */}
-            <section id="spaces">
-                <Spaces />
-            </section>
+                {/* About Section */}
+                <section id="about">
+                    <About />
+                </section>
 
-            {/* History & Process */}
-            <section id="process">
-                <History />
-            </section>
+                {/* Spaces Section */}
+                <section id="spaces">
+                    <Spaces />
+                </section>
 
-            {/* Gallery */}
-            <section id="gallery">
-                <Gallery />
-            </section>
+                {/* History & Process */}
+                <section id="process">
+                    <History />
+                </section>
 
-            {/* Pricing */}
-            <section id="pricing">
-                <Pricing />
-            </section>
+                {/* Gallery */}
+                <section id="gallery">
+                    <Gallery />
+                </section>
 
-            {/* Booking */}
-            <section id="booking">
-                <Booking />
-            </section>
+                {/* Pricing */}
+                <section id="pricing">
+                    <Pricing />
+                </section>
 
-            {/* Contact */}
-            <section id="contact">
-                <Contact />
-            </section>
-        </motion.div>
+                {/* Booking */}
+                <section id="booking">
+                    <Booking />
+                </section>
+
+                {/* Contact */}
+                <section id="contact">
+                    <Contact />
+                </section>
+            </motion.div>
+        </>
     )
 }
-
-export default Home

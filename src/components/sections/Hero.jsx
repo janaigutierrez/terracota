@@ -64,10 +64,13 @@ const Hero = () => {
                     {/* Main Heading */}
                     <motion.h1
                         variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="heading-xl text-white mb-6 text-balance"
+                        className="heading-xl text-white mb-6 text-balance drop-shadow-lg"
+                        style={{
+                            textShadow: '2px 2px 4px rgba(0,0,0,0.8), 1px 1px 2px rgba(0,0,0,0.5)'
+                        }}
                     >
                         Crea la teva obra d'art
-                        <span className="block text-terracotta-300">
+                        <span className="block text-cream-200 drop-shadow-lg">
                             mentre gaudeixes d'un bon cafè
                         </span>
                     </motion.h1>
