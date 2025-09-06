@@ -2,7 +2,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { Eye, Heart, Filter, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { ANIMATION_VARIANTS } from '../../utils/constants'
-import React from 'react'
 
 const GALLERY_DATA = [
     {
@@ -16,7 +15,7 @@ const GALLERY_DATA = [
     {
         id: 2,
         title: 'Plats artístics',
-        image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68dc2?w=500&h=600&fit=crop&auto=format&q=80',
+        image: 'about/plat.jpg',
         category: 'plats',
         description: 'Art funcional per a la taula',
         creator: 'Parella Anna i Joan'
@@ -125,10 +124,9 @@ const Gallery = () => {
                 >
                     <motion.div
                         variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="inline-flex items-center space-x-2 bg-terracotta-100 text-terracotta-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
+                        className="inline-flex items-center space-x-2bg-gradient-to-br from-clay-100 to-terracotta-50 text-terracotta-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
                     >
-                        <Heart className="w-4 h-4" />
-                        <span>Creacions dels nostres visitants</span>
+
                     </motion.div>
 
                     <motion.h2
@@ -162,8 +160,8 @@ const Gallery = () => {
                             key={category.id}
                             onClick={() => setSelectedCategory(category.id)}
                             className={`px-4 py-2 rounded-full font-medium transition-all duration-200 text-sm ${selectedCategory === category.id
-                                    ? 'bg-terracotta-500 text-white shadow-lg'
-                                    : 'bg-white/80 text-clay-600 hover:bg-terracotta-100 hover:text-terracotta-700'
+                                ? 'bg-terracotta-500 text-white shadow-lg'
+                                : 'bg-white/80 text-clay-600 hover:bg-terracotta-100 hover:text-terracotta-700'
                                 }`}
                         >
                             {category.name}

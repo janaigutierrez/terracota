@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { Palette, Coffee, BookOpen, Users, Sparkles, Heart } from 'lucide-react'
 import { ANIMATION_VARIANTS } from '../../utils/constants'
-import React from 'react'
 
 const SPACES_DATA = [
     {
@@ -17,8 +16,8 @@ const SPACES_DATA = [
     {
         id: 'cafe',
         title: 'Cafeteria Local',
-        description: 'Gaudeix de cafè d\'especialitat i productes artesans mentre crees la teva obra.',
-        features: ['Cafè de tueste artesà', 'Pastissos casolans', 'Productes locals', 'Esmorzars i berenars'],
+        description: "Gaudeix d'un bon cafè i productes artesans mentre crees la teva obra.",
+        features: ["Cafè d'especialitat", 'Pastissos casolans', 'Productes locals', 'Esmorzars i berenars'],
         image: 'https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=600&h=400&fit=crop&auto=format&q=80',
         icon: Coffee,
         color: 'clay',
@@ -28,7 +27,7 @@ const SPACES_DATA = [
         id: 'reading',
         title: 'Racó de Lectura',
         description: 'Zona tranquil·la amb llibres per intercanviar i seients còmodes per relaxar-te.',
-        features: ['Book crossing', 'Seients còmodes', 'Il·luminació natural', 'Ambient silenciós'],
+        features: ['Book crossing', 'Seients còmodes', 'Il·luminació natural', 'Ambient tranquil'],
         image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=400&fit=crop&auto=format&q=80',
         icon: BookOpen,
         color: 'cream',
@@ -50,10 +49,8 @@ const Spaces = () => {
                 >
                     <motion.div
                         variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="inline-flex items-center space-x-2 bg-terracotta-100 text-terracotta-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
+                        className="inline-flex items-center space-x-2 bg- from-terracotta-50 to-cream-100 text-terracotta-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
                     >
-                        <Sparkles className="w-4 h-4" />
-                        <span>Tres espais únics</span>
                     </motion.div>
 
                     <motion.h2
@@ -68,7 +65,7 @@ const Spaces = () => {
                         variants={ANIMATION_VARIANTS.fadeInUp}
                         className="text-large max-w-2xl mx-auto"
                     >
-                        Cada racó de Terracotta està pensat perquè visquis una experiència única.
+                        Cada racó de Terracota està pensat perquè visquis una experiència única.
                         Crea, gaudeix i relaxa't en els nostres espais especialment dissenyats.
                     </motion.p>
                 </motion.div>
@@ -101,9 +98,7 @@ const Spaces = () => {
                                             <div className={`w-12 h-12 bg-${space.color}-500 rounded-xl flex items-center justify-center text-white shadow-lg`}>
                                                 <space.icon className="w-6 h-6" />
                                             </div>
-                                            <div className="text-white font-medium text-sm bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                                                {space.stats}
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +145,7 @@ const Spaces = () => {
                         <h3 className="heading-md mb-4">Vine a descobrir-ho!</h3>
                         <p className="text-large mb-6 max-w-2xl mx-auto">
                             Cada espai està pensat per crear moments especials.
-                            Reserva ara i viu l'experiència completa a Terracotta.
+                            Reserva ara i viu l'experiència completa a Terracota.
                         </p>
                         <button
                             onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}

@@ -15,7 +15,7 @@ const Hero = () => {
 
     return (
         <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-            {/* Background Image with Overlay */}
+            {/* Background Image */}
             <div className="absolute inset-0">
                 <img
                     src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80"
@@ -53,14 +53,6 @@ const Hero = () => {
                     animate="visible"
                     className="max-w-4xl mx-auto"
                 >
-                    {/* Subtitle */}
-                    <motion.p
-                        variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="text-cream-200 text-lg sm:text-xl mb-4 font-medium tracking-wide"
-                    >
-                        Benvinguts a {SITE_CONFIG.location}
-                    </motion.p>
-
                     {/* Main Heading */}
                     <motion.h1
                         variants={ANIMATION_VARIANTS.fadeInUp}

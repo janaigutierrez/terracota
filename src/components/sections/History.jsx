@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, Palette, Flame, Gift, Sparkles } from 'lucide-react'
 import { ANIMATION_VARIANTS } from '../../utils/constants'
-import React from 'react'
 
 const PROCESS_STEPS = [
     {
@@ -45,7 +44,6 @@ const PROCESS_STEPS = [
         color: 'cream'
     }
 ]
-
 const History = () => {
     return (
         <section className="section-padding bg-white">
@@ -60,10 +58,9 @@ const History = () => {
                 >
                     <motion.div
                         variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="inline-flex items-center space-x-2 bg-clay-100 text-clay-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
+                        className="inline-flex items-center space-x-2 bg-white text-clay-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
                     >
-                        <Sparkles className="w-4 h-4" />
-                        <span>Procés senzill i màgic</span>
+
                     </motion.div>
 
                     <motion.h2
@@ -78,8 +75,8 @@ const History = () => {
                         variants={ANIMATION_VARIANTS.fadeInUp}
                         className="text-large max-w-2xl mx-auto"
                     >
-                        En només 4 passos simples, crearàs una obra d'art única.
-                        No cal experiència prèvia - nosaltres t'acompanyem en tot el procés.
+                        En només 4 passos simples crearàs una obra d'art única.
+                        No cal experiència prèvia, nosaltres t'acompanyem en tot el procés.
                     </motion.p>
                 </motion.div>
 
@@ -99,13 +96,13 @@ const History = () => {
                             >
                                 {/* Connector Line */}
                                 {index < PROCESS_STEPS.length - 1 && (
-                                    <div className="absolute left-6 top-20 w-0.5 h-16 bg-gradient-to-b from-terracotta-300 to-transparent" />
+                                    <div className="absolute left-6 top-23 w-0.5 h-16 bg-gradient-to-b from-terracotta-300 to-transparent" />
                                 )}
 
                                 <div className="flex items-start space-x-4">
                                     {/* Step Number & Icon */}
                                     <div className="flex-shrink-0">
-                                        <div className={`w-12 h-12 bg-${step.color}-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg`}>
+                                        <div className={`w-12 h-12 bg-${step.color}-500 rounded-full flex items-center justify-center text-amber-800 font-bold text-lg shadow-lg`}>
                                             {step.id}
                                         </div>
                                         <div className="text-2xl mt-2 text-center">

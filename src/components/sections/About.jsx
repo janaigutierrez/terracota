@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Sparkles, Users, Leaf } from 'lucide-react'
+import { ArrowRight, Users, Leaf } from 'lucide-react'
 import { ANIMATION_VARIANTS } from '../../utils/constants'
-import React from 'react'
 
 const About = () => {
     return (
@@ -19,10 +18,9 @@ const About = () => {
                     >
                         <motion.div
                             variants={ANIMATION_VARIANTS.fadeInUp}
-                            className="inline-flex items-center space-x-2 bg-terracotta-100 text-terracotta-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
+                            className="inline-flex items-center space-x-2 bg-white text-terracotta-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
                         >
-                            <Sparkles className="w-4 h-4" />
-                            <span>Primera ceramiqueria de Granollers</span>
+
                         </motion.div>
 
                         <motion.h2
@@ -30,7 +28,7 @@ const About = () => {
                             className="heading-lg mb-6"
                         >
                             Què és
-                            <span className="text-terracotta-600"> Terracotta</span>?
+                            <span className="text-terracotta-600"> Terracota</span>?
                         </motion.h2>
 
                         <motion.p
@@ -99,20 +97,10 @@ const About = () => {
                     >
                         <div className="relative overflow-hidden rounded-2xl shadow-2xl">
                             <img
-                                src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800&h=600&fit=crop&crop=center&auto=format&q=80"
-                                alt="Persona pintant ceràmica"
+                                src="public/about.png"
+                                alt="Ceramiqueria"
                                 className="w-full h-[500px] object-cover"
                             />
-
-                            {/* Overlay amb info */}
-                            <div className="absolute bottom-6 left-6 right-6">
-                                <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                                    <p className="text-clay-700 font-medium text-sm">
-                                        💡 <strong>Sabies que...</strong> cada peça és única i el procés de cocció
-                                        pot crear sorpreses màgiques amb els colors?
-                                    </p>
-                                </div>
-                            </div>
                         </div>
 
                         {/* Decorative elements */}
