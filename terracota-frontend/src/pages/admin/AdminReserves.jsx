@@ -29,6 +29,10 @@ import {
 import AdminLayout from '../../components/layout/AdminLayout';
 import { apiRequest } from '../../utils/constants';
 
+// TODO: ARREGLAR constants.js - problema amb URL duplicada
+// Actualment: baseURL = 'http://localhost:3001' + '/bookings' = INCORRECTE
+// Hauria de ser: baseURL = 'http://localhost:3001' + '/api/bookings'
+
 const AdminReserves = () => {
     const [todayBookings, setTodayBookings] = useState([]);
     const [stats, setStats] = useState({});
@@ -181,6 +185,10 @@ const AdminReserves = () => {
     });
 
     useEffect(() => {
+        if (!isAuthenticated()) {
+            window.location.href = '/admin';
+            return;
+        }
         fetchTodayBookings();
     }, []);
 

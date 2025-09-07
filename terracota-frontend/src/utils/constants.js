@@ -81,11 +81,11 @@ export const ANIMATION_VARIANTS = {
     }
 }
 
-// API Configuration
+// ✅ API Configuration ARREGLAT
 export const API_CONFIG = {
     baseURL: import.meta.env.PROD
-        ? 'https://terracota.onrender.com/api'  // ⬅️ Render URL
-        : 'http://localhost:3001',          // ⬅️ Local development
+        ? 'https://terracota.onrender.com'     // ⬅️ SENSE /api
+        : 'http://localhost:3001',              // ⬅️ SENSE /api
     timeout: 10000, // 10 segons timeout
     headers: {
         'Content-Type': 'application/json'
@@ -94,51 +94,140 @@ export const API_CONFIG = {
 
 // API Endpoints
 export const API_ENDPOINTS = {
+    // Auth
+    auth: {
+        login: '/api/auth/login',
+        verify: '/api/auth/verify',
+        logout: '/api/auth/logout'
+    },
+
     // Reserves
     bookings: {
-        create: '/bookings',
-        list: '/bookings',
-        getById: (id) => `/bookings/${id}`,
-        updateStatus: (id) => `/bookings/${id}/status`
+        create: '/api/bookings',
+        list: '/api/bookings',
+        getById: (id) => `/api/bookings/${id}`,
+        updateStatus: (id) => `/api/bookings/${id}/status`,
+        today: '/api/bookings/admin/today',                    // ⬅️ AMB /api
+        markAttended: (id) => `/api/bookings/${id}/attended`,
+        complete: (id) => `/api/bookings/${id}/complete`,
+        cancel: (id) => `/api/bookings/${id}/cancel`
     },
 
     // Contacte  
     contact: {
-        create: '/contact',
-        list: '/contact'
+        create: '/api/contact',
+        list: '/api/contact'
     },
 
     // Dashboard (admin)
     dashboard: {
-        stats: '/dashboard/stats',
-        today: '/dashboard/today',
-        inventoryAlerts: '/dashboard/inventory-alerts'
+        stats: '/api/dashboard/stats',
+        today: '/api/dashboard/today',
+        inventoryAlerts: '/api/dashboard/inventory-alerts'
+    },
+
+    // Inventari (per desenvolupar)
+    inventory: {
+        list: '/api/inventory',
+        create: '/api/inventory',
+        update: (id) => `/api/inventory/${id}`,
+        delete: (id) => `/api/inventory/${id}`,
+        alerts: '/api/inventory/alerts'
     },
 
     // Health check
-    health: '/health' // Per provar que funciona: https://terracota.onrender.com/health
+    health: '/api/health'
 }
 
-// Helper function per fer requests
+// ✅ Helper function ARREGLADA amb autenticació
 export const apiRequest = async (endpoint, options = {}) => {
     const url = `${API_CONFIG.baseURL}${endpoint}`
 
+    // ✅ OBTENIR TOKEN DEL LOCALSTORAGE
+    const token = localStorage.getItem('adminToken');
+
     const config = {
         method: 'GET',
-        headers: API_CONFIG.headers,
+        headers: {
+            ...API_CONFIG.headers,
+            // ✅ AFEGIR AUTHORIZATION HEADER SI HI HA TOKEN
+            ...(token && { 'Authorization': `Bearer ${token}` })
+        },
         ...options
+    }
+
+    // ✅ Si hi ha body, convertir a JSON
+    if (config.body && typeof config.body === 'object') {
+        config.body = JSON.stringify(config.body);
     }
 
     try {
         const response = await fetch(url, config)
 
+        // ✅ GESTIÓ ERROR 401 (token expirat)
+        if (response.status === 401) {
+            // Token expirat, redirigir a login
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminData');
+
+            // Si estem en ruta admin, redirigir a login
+            if (window.location.pathname.startsWith('/admin')) {
+                window.location.href = '/admin';
+                return;
+            }
+        }
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        return await response.json()
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            return await response.json()
+        } else {
+            return await response.text()
+        }
     } catch (error) {
         console.error('API Request failed:', error)
         throw error
+    }
+}
+
+// ✅ Helper específic per requests admin (amb token obligatori)
+export const adminApiRequest = async (endpoint, options = {}) => {
+    const token = localStorage.getItem('adminToken');
+
+    if (!token) {
+        // No hi ha token, redirigir a login
+        window.location.href = '/admin';
+        throw new Error('No authentication token');
+    }
+
+    return apiRequest(endpoint, {
+        ...options,
+        headers: {
+            ...options.headers,
+            'Authorization': `Bearer ${token}`
+        }
+    });
+}
+
+// ✅ Helper per verificar si usuari està autenticat
+export const isAuthenticated = () => {
+    const token = localStorage.getItem('adminToken');
+    const adminData = localStorage.getItem('adminData');
+
+    return !!(token && adminData);
+}
+
+// ✅ Helper per obtenir dades admin
+export const getAdminData = () => {
+    const adminData = localStorage.getItem('adminData');
+
+    try {
+        return adminData ? JSON.parse(adminData) : null;
+    } catch (error) {
+        console.error('Error parsing admin data:', error);
+        return null;
     }
 }
