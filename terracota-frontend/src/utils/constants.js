@@ -80,3 +80,65 @@ export const ANIMATION_VARIANTS = {
         }
     }
 }
+
+// API Configuration
+export const API_CONFIG = {
+    baseURL: import.meta.env.PROD
+        ? 'https://terracota.onrender.com/api'  // ⬅️ Render URL
+        : 'http://localhost:3001/api',          // ⬅️ Local development
+    timeout: 10000, // 10 segons timeout
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}
+
+// API Endpoints
+export const API_ENDPOINTS = {
+    // Reserves
+    bookings: {
+        create: '/bookings',
+        list: '/bookings',
+        getById: (id) => `/bookings/${id}`,
+        updateStatus: (id) => `/bookings/${id}/status`
+    },
+
+    // Contacte  
+    contact: {
+        create: '/contact',
+        list: '/contact'
+    },
+
+    // Dashboard (admin)
+    dashboard: {
+        stats: '/dashboard/stats',
+        today: '/dashboard/today',
+        inventoryAlerts: '/dashboard/inventory-alerts'
+    },
+
+    // Health check
+    health: '/health' // Per provar que funciona: https://terracota.onrender.com/health
+}
+
+// Helper function per fer requests
+export const apiRequest = async (endpoint, options = {}) => {
+    const url = `${API_CONFIG.baseURL}${endpoint}`
+
+    const config = {
+        method: 'GET',
+        headers: API_CONFIG.headers,
+        ...options
+    }
+
+    try {
+        const response = await fetch(url, config)
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        return await response.json()
+    } catch (error) {
+        console.error('API Request failed:', error)
+        throw error
+    }
+}

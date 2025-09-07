@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Calendar, Clock, Users, Phone, Mail, User, MessageSquare, Check, AlertCircle, Send } from 'lucide-react'
-import { ANIMATION_VARIANTS, SITE_CONFIG, EMAIL_CONFIG } from '../../utils/constants'
+import { ANIMATION_VARIANTS, SITE_CONFIG, EMAIL_CONFIG, API_CONFIG } from '../../utils/constants'
 import emailjs from '@emailjs/browser'
 
 const BOOKING_OPTIONS = [
@@ -121,7 +121,7 @@ const Booking = () => {
                 booking_id: `TER-${Date.now()}`
             }
 
-            // Dades per Backend
+            // Dades per Backend (API dinàmica)
             const backendData = {
                 name: formData.name,
                 email: formData.email,
@@ -134,10 +134,11 @@ const Booking = () => {
                 totalPrice: calculateTotal()
             }
 
-            // 1. Guardar al backend (prioritari)
+            // 1. Guardar al backend (prioritari) - URL dinàmica
             console.log('📤 Enviant reserva al backend...', backendData)
+            console.log('🌐 API URL:', `${API_CONFIG.baseURL}/bookings`)
 
-            const backendResponse = await fetch('http://localhost:3001/api/bookings', {
+            const backendResponse = await fetch(`${API_CONFIG.baseURL}/bookings`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
