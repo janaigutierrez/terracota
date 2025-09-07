@@ -1,6 +1,5 @@
 require('dotenv').config();
-const app = require('./src/app');
-
+const app = require('./terracota-backend/src/app');
 const PORT = process.env.PORT || 3001;
 
 // Start server
