@@ -1,5 +1,5 @@
 require('dotenv').config();
-const app = require('./src/app'); // ✅ Path correcte dins del backend
+const app = require('./src/app');
 
 const PORT = process.env.PORT || 3001;
 
