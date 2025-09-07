@@ -1,18 +1,22 @@
 const express = require('express');
-const router = express.Router();
 const dashboardController = require('../controllers/dashboardController');
+const authMiddleware = require('../middleware/auth');
 
-// Routes dashboard
+const router = express.Router();
+
+// Aplicar middleware d'autenticació a totes les routes del dashboard
+router.use(authMiddleware);
+
+// 📊 ESTADÍSTIQUES PRINCIPALS
 router.get('/stats', dashboardController.getStats);
-router.get('/today', dashboardController.getTodayBookings);
-router.get('/inventory-alerts', dashboardController.getInventoryAlerts);
 
-// Test endpoint
-router.get('/test', (req, res) => {
-    res.json({
-        message: 'Dashboard funcionant! 📊',
-        timestamp: new Date().toISOString()
-    });
-});
+// 📅 RESUM DEL DIA
+router.get('/today', dashboardController.getTodaySummary);
+
+// 💰 INGRESSOS PER PERÍODE
+router.get('/revenue', dashboardController.getRevenue);
+
+// 🏺 ESTAT DE LES PECES
+router.get('/pieces', dashboardController.getPiecesStatus);
 
 module.exports = router;
