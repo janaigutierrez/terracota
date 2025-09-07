@@ -372,11 +372,10 @@ const AdminInventory = () => {
     };
 
     useEffect(() => {
-        // TODO: Afegir verificació d'autenticació quan tinguis el utils
-        // if (!isAuthenticated()) {
-        //     window.location.href = '/admin';
-        //     return;
-        // }
+        if (!isAuthenticated()) {
+            window.location.href = '/admin';
+            return;
+        }
         fetchInventory();
     }, []);
 
@@ -1051,5 +1050,5 @@ const MovementModal = ({ isOpen, onClose, item, movementData, setMovementData, o
         </div>
     );
 };
-//hehe
+
 export default AdminInventory;
