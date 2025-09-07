@@ -126,13 +126,21 @@ export const API_ENDPOINTS = {
         inventoryAlerts: '/api/dashboard/inventory-alerts'
     },
 
-    // Inventari (per desenvolupar)
+    // Inventari
     inventory: {
         list: '/api/inventory',
         create: '/api/inventory',
+        getById: (id) => `/api/inventory/${id}`,
         update: (id) => `/api/inventory/${id}`,
         delete: (id) => `/api/inventory/${id}`,
-        alerts: '/api/inventory/alerts'
+        addMovement: (id) => `/api/inventory/${id}/movement`,
+        movements: '/api/inventory/movements/history',
+        alerts: '/api/inventory/alerts/low-stock',
+        stats: '/api/inventory/stats/overview',
+        search: '/api/inventory/search/items',
+        updateBulk: '/api/inventory/bulk/update-stock',
+        categories: '/api/inventory/meta/categories',
+        movementReasons: '/api/inventory/meta/movement-reasons'
     },
 
     // Health check
