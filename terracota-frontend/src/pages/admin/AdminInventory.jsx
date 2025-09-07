@@ -23,6 +23,7 @@ import {
     XCircle
 } from 'lucide-react';
 import AdminLayout from '../../components/layout/AdminLayout';
+import { adminApiRequest, API_ENDPOINTS, isAuthenticated } from '/src/utils/constants';
 
 const AdminInventory = () => {
     const [inventory, setInventory] = useState([]);
