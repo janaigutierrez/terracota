@@ -24,9 +24,13 @@ const AdminLogin = () => {
         e.preventDefault();
         setLoading(true);
         setError('');
+        // DEBUG - afegeix això temporalment
+        console.log('🔍 VITE_API_URL:', import.meta.env.VITE_API_URL);
+        console.log('🔍 Totes les env vars:', import.meta.env);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, console.log('🔍 URL final:', url), {
+
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
