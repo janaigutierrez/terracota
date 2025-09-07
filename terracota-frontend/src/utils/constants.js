@@ -85,7 +85,7 @@ export const ANIMATION_VARIANTS = {
 export const API_CONFIG = {
     baseURL: import.meta.env.PROD
         ? 'https://terracota.onrender.com/api'  // ⬅️ Render URL
-        : 'http://localhost:3001/api',          // ⬅️ Local development
+        : 'http://localhost:3001',          // ⬅️ Local development
     timeout: 10000, // 10 segons timeout
     headers: {
         'Content-Type': 'application/json'

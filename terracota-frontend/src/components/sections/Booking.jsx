@@ -1,52 +1,17 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Calendar, Clock, Users, Phone, Mail, User, MessageSquare, Check, AlertCircle, Send } from 'lucide-react'
-import { ANIMATION_VARIANTS, SITE_CONFIG, EMAIL_CONFIG, API_CONFIG } from '../../utils/constants'
-import emailjs from '@emailjs/browser'
-
-const BOOKING_OPTIONS = [
-    {
-        id: 'tassa',
-        name: 'Tassa',
-        price: 8,
-        duration: '45 min',
-        description: 'Perfecta per començar',
-        maxPeople: 1
-    },
-    {
-        id: 'plat',
-        name: 'Plat',
-        price: 12,
-        duration: '60-90 min',
-        description: 'L\'opció més popular',
-        maxPeople: 1
-    },
-    {
-        id: 'decorativa',
-        name: 'Peça decorativa',
-        price: 18,
-        duration: '90-120 min',
-        description: 'Per creacions especials',
-        maxPeople: 1
-    },
-    {
-        id: 'grup',
-        name: 'Taller grupal',
-        price: 80,
-        duration: '2 hores',
-        description: 'Per grups de 6-10 persones',
-        maxPeople: 10
-    }
-]
+import { Calendar, Clock, Users, Phone, Mail, User, MessageSquare, Check, AlertCircle, Send, Euro, Info } from 'lucide-react'
+import { ANIMATION_VARIANTS, SITE_CONFIG, API_CONFIG } from '../../utils/constants'
 
 const TIME_SLOTS = [
-    '10:00', '11:00', '12:00', '15:00', '16:00', '17:00', '18:00', '19:00'
+    '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
+    '18:00', '18:30', '19:00', '19:30'
 ]
 
 const Booking = () => {
     const [formData, setFormData] = useState({
-        selectedOption: '',
         date: '',
         time: '',
         people: 1,
@@ -54,7 +19,7 @@ const Booking = () => {
         email: '',
         phone: '',
         message: '',
-        acceptTerms: false
+        acceptPolicy: false
     })
 
     const [formErrors, setFormErrors] = useState({})
@@ -73,14 +38,13 @@ const Booking = () => {
     const validateForm = () => {
         const errors = {}
 
-        if (!formData.selectedOption) errors.selectedOption = 'Selecciona una opció'
         if (!formData.date) errors.date = 'Selecciona una data'
         if (!formData.time) errors.time = 'Selecciona una hora'
         if (!formData.name.trim()) errors.name = 'El nom és obligatori'
         if (!formData.email.trim()) errors.email = 'L\'email és obligatori'
         else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Email no vàlid'
         if (!formData.phone.trim()) errors.phone = 'El telèfon és obligatori'
-        if (!formData.acceptTerms) errors.acceptTerms = 'Has d\'acceptar els termes'
+        if (!formData.acceptPolicy) errors.acceptPolicy = 'Has d\'acceptar la política de cancel·lacions'
 
         // Validate date is not in the past
         if (formData.date) {
@@ -103,42 +67,22 @@ const Booking = () => {
         setIsSubmitting(true)
 
         try {
-            // Preparar dades per enviar
-            const selectedOption = BOOKING_OPTIONS.find(opt => opt.id === formData.selectedOption)
-
-            // Dades per EmailJS
-            const emailData = {
-                to_email: SITE_CONFIG.email,
-                from_name: formData.name,
-                from_email: formData.email,
-                phone: formData.phone,
-                booking_option: selectedOption?.name,
-                booking_date: new Date(formData.date).toLocaleDateString('ca-ES'),
-                booking_time: formData.time,
-                people_count: formData.people,
-                total_price: calculateTotal(),
-                message: formData.message || 'Sense missatge adicional',
-                booking_id: `TER-${Date.now()}`
-            }
-
-            // Dades per Backend (API dinàmica)
+            // Dades per Backend (nou sistema)
             const backendData = {
                 name: formData.name,
                 email: formData.email,
                 phone: formData.phone,
-                selectedOption: formData.selectedOption,
                 date: formData.date,
                 time: formData.time,
                 people: formData.people,
                 message: formData.message,
-                totalPrice: calculateTotal()
+                acceptPolicy: formData.acceptPolicy
             }
 
-            // 1. Guardar al backend (prioritari) - URL dinàmica
             console.log('📤 Enviant reserva al backend...', backendData)
-            console.log('🌐 API URL:', `${API_CONFIG.baseURL}/bookings`)
+            console.log('🌐 API URL:', `${API_CONFIG.baseURL}/api/bookings`)
 
-            const backendResponse = await fetch(`${API_CONFIG.baseURL}/bookings`, {
+            const backendResponse = await fetch(`${API_CONFIG.baseURL}/api/bookings`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -153,29 +97,11 @@ const Booking = () => {
             }
 
             console.log('✅ Reserva guardada al backend:', backendResult)
-
-            // 2. Enviar email amb EmailJS (secundari)
-            try {
-                const emailResult = await emailjs.send(
-                    EMAIL_CONFIG.serviceId,
-                    EMAIL_CONFIG.templateId,
-                    emailData,
-                    EMAIL_CONFIG.publicKey
-                )
-                console.log('📧 Email enviat correctament:', emailResult)
-            } catch (emailError) {
-                console.warn('⚠️ Error enviant email (però reserva guardada):', emailError)
-                // No fallem per l'email - la reserva ja està guardada
-            }
-
-            // 3. Mostrar èxit
-            console.log('🎉 Reserva completada amb èxit!')
             setSubmitted(true)
 
         } catch (error) {
             console.error('❌ Error processant reserva:', error)
 
-            // Missatge d'error més informatiu
             let errorMessage = 'Hi ha hagut un error guardant la reserva.'
 
             if (error.message.includes('Backend error')) {
@@ -193,13 +119,7 @@ const Booking = () => {
     }
 
     const calculateTotal = () => {
-        const option = BOOKING_OPTIONS.find(opt => opt.id === formData.selectedOption)
-        if (!option) return 0
-
-        if (option.id === 'grup') {
-            return option.price // Grup price is fixed
-        }
-        return option.price * formData.people
+        return formData.people * 8
     }
 
     const getMinDate = () => {
@@ -232,11 +152,18 @@ const Booking = () => {
                             <div className="bg-terracotta-50 rounded-xl p-6 mb-6">
                                 <h3 className="font-semibold text-terracotta-800 mb-3">Detalls de la reserva:</h3>
                                 <div className="text-left space-y-2 text-clay-600">
-                                    <p><strong>Opció:</strong> {BOOKING_OPTIONS.find(opt => opt.id === formData.selectedOption)?.name}</p>
+                                    <p><strong>Sistema:</strong> 8€ per persona</p>
                                     <p><strong>Persones:</strong> {formData.people}</p>
-                                    <p><strong>Total:</strong> {calculateTotal()}€</p>
+                                    <p><strong>Total pagat:</strong> {calculateTotal()}€</p>
                                     <p><strong>Contacte:</strong> {formData.name} ({formData.email})</p>
                                 </div>
+                            </div>
+
+                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <p className="text-sm text-blue-800">
+                                    <strong>Recordatori:</strong> Al local podràs triar entre més de 50 peces diferents.
+                                    Si la peça costa més de 8€, pagaràs la diferència. Si costa menys, tens crèdit per cafeteria!
+                                </p>
                             </div>
 
                             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -271,93 +198,58 @@ const Booking = () => {
                     viewport={{ once: true, amount: 0.3 }}
                     className="text-center mb-12"
                 >
-                    <motion.div
-                        variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="inline-flex items-center space-x-2 bg-gradient-to-br from-terracotta-100 to-cream-200 text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
-                    >
-
-                    </motion.div>
-
                     <motion.h2
                         variants={ANIMATION_VARIANTS.fadeInUp}
                         className="heading-lg mb-6"
                     >
-                        Crea el teu
-                        <span className="text-terracotta-600"> moment perfecte</span>
+                        Reserva la teva
+                        <span className="text-terracotta-600"> experiència</span>
                     </motion.h2>
 
                     <motion.p
                         variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="text-large max-w-2xl mx-auto"
+                        className="text-large max-w-2xl mx-auto mb-8"
                     >
-                        Selecciona la teva opció preferida i reserva l'experiència.
-                        T'ajudarem a crear una obra única mentre gaudeixes d'un bon cafè.
+                        Sistema simplificat: 8€ per persona - Tria la peça perfecta al local
                     </motion.p>
+
+                    {/* Info Sistema Nou */}
+                    <motion.div
+                        variants={ANIMATION_VARIANTS.fadeInUp}
+                        className="bg-blue-50 border border-blue-200 rounded-xl p-6 max-w-3xl mx-auto"
+                    >
+                        <div className="flex items-start space-x-3">
+                            <Info className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+                            <div className="text-left">
+                                <h3 className="font-semibold text-blue-800 mb-3">Com funciona el nou sistema:</h3>
+                                <div className="grid md:grid-cols-2 gap-4 text-sm text-blue-800">
+                                    <div>
+                                        <p className="mb-2">✅ <strong>Reserves la taula:</strong> 8€ per persona</p>
+                                        <p className="mb-2">🏺 <strong>Al local:</strong> +50 peces disponibles</p>
+                                    </div>
+                                    <div>
+                                        <p className="mb-2">💰 <strong>Peça més cara:</strong> Pagues diferència</p>
+                                        <p className="mb-2">☕ <strong>Peça més barata:</strong> Crèdit cafeteria</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
                 </motion.div>
 
                 <div className="max-w-4xl mx-auto">
-                    <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
 
-                        {/* Step 1: Select Option */}
+                        {/* Step 1: Date & Time */}
                         <div className="p-8 border-b border-gray-100">
-                            <h3 className="heading-md mb-6">1. Escull la teva experiència</h3>
+                            <h3 className="heading-md mb-6">1. Selecciona data i hora</h3>
 
-                            <div className="grid md:grid-cols-2 gap-4">
-                                {BOOKING_OPTIONS.map((option) => (
-                                    <motion.div
-                                        key={option.id}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all ${formData.selectedOption === option.id
-                                            ? 'border-terracotta-500 bg-terracotta-50'
-                                            : 'border-gray-200 hover:border-terracotta-300'
-                                            }`}
-                                        onClick={() => handleInputChange('selectedOption', option.id)}
-                                    >
-                                        {formData.selectedOption === option.id && (
-                                            <div className="absolute top-3 right-3 w-6 h-6 bg-terracotta-500 rounded-full flex items-center justify-center">
-                                                <Check className="w-4 h-4 text-white" />
-                                            </div>
-                                        )}
-
-                                        <h4 className="font-semibold text-clay-800 mb-2">{option.name}</h4>
-                                        <p className="text-clay-600 text-sm mb-3">{option.description}</p>
-
-                                        <div className="flex items-center justify-between text-sm">
-                                            <div className="flex items-center space-x-4">
-                                                <span className="flex items-center space-x-1 text-clay-500">
-                                                    <Clock className="w-4 h-4" />
-                                                    <span>{option.duration}</span>
-                                                </span>
-                                                <span className="flex items-center space-x-1 text-clay-500">
-                                                    <Users className="w-4 h-4" />
-                                                    <span>Max {option.maxPeople}</span>
-                                                </span>
-                                            </div>
-                                            <span className="font-bold text-terracotta-600">{option.price}€</span>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </div>
-
-                            {formErrors.selectedOption && (
-                                <p className="text-red-500 text-sm mt-2 flex items-center space-x-1">
-                                    <AlertCircle className="w-4 h-4" />
-                                    <span>{formErrors.selectedOption}</span>
-                                </p>
-                            )}
-                        </div>
-
-                        {/* Step 2: Date & Time */}
-                        <div className="p-8 border-b border-gray-100">
-                            <h3 className="heading-md mb-6">2. Selecciona data i hora</h3>
-
-                            <div className="grid md:grid-cols-3 gap-6">
+                            <div className="grid md:grid-cols-2 gap-6">
                                 {/* Date */}
                                 <div>
                                     <label className="block text-clay-700 font-medium mb-2">
                                         <Calendar className="w-4 h-4 inline mr-2" />
-                                        Data
+                                        Data *
                                     </label>
                                     <input
                                         type="date"
@@ -376,7 +268,7 @@ const Booking = () => {
                                 <div>
                                     <label className="block text-clay-700 font-medium mb-2">
                                         <Clock className="w-4 h-4 inline mr-2" />
-                                        Hora
+                                        Hora *
                                     </label>
                                     <select
                                         value={formData.time}
@@ -393,23 +285,41 @@ const Booking = () => {
                                         <p className="text-red-500 text-sm mt-1">{formErrors.time}</p>
                                     )}
                                 </div>
+                            </div>
+                        </div>
 
-                                {/* People */}
-                                <div>
+                        {/* Step 2: People & Price */}
+                        <div className="p-8 border-b border-gray-100">
+                            <h3 className="heading-md mb-6">2. Quantes persones?</h3>
+
+                            <div className="flex items-center justify-between">
+                                <div className="flex-1 mr-8">
                                     <label className="block text-clay-700 font-medium mb-2">
                                         <Users className="w-4 h-4 inline mr-2" />
-                                        Persones
+                                        Nombre de persones *
                                     </label>
                                     <select
                                         value={formData.people}
                                         onChange={(e) => handleInputChange('people', parseInt(e.target.value))}
-                                        disabled={formData.selectedOption === 'grup'}
-                                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-terracotta-500 focus:border-terracotta-500 disabled:bg-gray-100"
+                                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-terracotta-500 focus:border-terracotta-500"
                                     >
-                                        {Array.from({ length: formData.selectedOption === 'grup' ? 1 : 4 }, (_, i) => i + 1).map(num => (
-                                            <option key={num} value={num}>{num} {num === 1 ? 'persona' : 'persones'}</option>
+                                        {Array.from({ length: 8 }, (_, i) => i + 1).map(num => (
+                                            <option key={num} value={num}>
+                                                {num} {num === 1 ? 'persona' : 'persones'}
+                                            </option>
                                         ))}
                                     </select>
+                                </div>
+
+                                <div className="bg-terracotta-50 border border-terracotta-200 rounded-xl p-6 text-center">
+                                    <div className="flex items-center justify-center text-terracotta-600 mb-2">
+                                        <Euro className="w-6 h-6 mr-2" />
+                                        <span className="text-3xl font-bold">{calculateTotal()}</span>
+                                    </div>
+                                    <p className="text-sm text-terracotta-700">
+                                        8€ × {formData.people} persona{formData.people > 1 ? 'es' : ''}
+                                    </p>
+                                    <p className="text-xs text-terracotta-600 mt-1">Import mínim per qualsevol peça</p>
                                 </div>
                             </div>
                         </div>
@@ -485,7 +395,7 @@ const Booking = () => {
                                     <textarea
                                         value={formData.message}
                                         onChange={(e) => handleInputChange('message', e.target.value)}
-                                        placeholder="Alguna petició especial?"
+                                        placeholder="Ocasió especial, al·lèrgies, peticions especials..."
                                         rows="3"
                                         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-terracotta-500 focus:border-terracotta-500"
                                     />
@@ -493,67 +403,62 @@ const Booking = () => {
                             </div>
                         </div>
 
-                        {/* Step 4: Summary & Submit */}
+                        {/* Step 4: Policy & Submit */}
                         <div className="p-8 bg-terracotta-50">
                             <h3 className="heading-md mb-6">4. Confirmació</h3>
 
                             {/* Summary */}
-                            {formData.selectedOption && (
+                            {formData.date && formData.time && (
                                 <div className="bg-white rounded-xl p-6 mb-6">
                                     <h4 className="font-semibold text-clay-800 mb-4">Resum de la reserva:</h4>
                                     <div className="space-y-2 text-clay-600">
-                                        <p><strong>Experiència:</strong> {BOOKING_OPTIONS.find(opt => opt.id === formData.selectedOption)?.name}</p>
-                                        {formData.date && <p><strong>Data:</strong> {new Date(formData.date).toLocaleDateString('ca-ES')}</p>}
-                                        {formData.time && <p><strong>Hora:</strong> {formData.time}</p>}
+                                        <p><strong>Sistema:</strong> 8€ per persona</p>
+                                        <p><strong>Data:</strong> {new Date(formData.date).toLocaleDateString('ca-ES')}</p>
+                                        <p><strong>Hora:</strong> {formData.time}</p>
                                         <p><strong>Persones:</strong> {formData.people}</p>
                                         <div className="border-t pt-2 mt-3">
                                             <p className="text-lg font-bold text-terracotta-600">
-                                                <strong>Total: {calculateTotal()}€</strong>
+                                                <strong>Total a pagar: {calculateTotal()}€</strong>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             )}
 
-                            {/* Terms */}
-                            <div className="mb-6">
+                            {/* Policy */}
+                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+                                <h4 className="font-semibold text-amber-800 mb-2 flex items-center">
+                                    <AlertCircle className="w-5 h-5 mr-2" />
+                                    Política de Cancel·lacions
+                                </h4>
+                                <div className="text-sm text-amber-700 mb-3 space-y-1">
+                                    <p>✅ <strong>+48h abans:</strong> Cancel·lació gratuïta amb reemborsament complet</p>
+                                    <p>❌ <strong>-48h abans:</strong> Import no reemborsable</p>
+                                    <p>🆘 <strong>Emergències:</strong> Contacta'ns i valorarem reagendar</p>
+                                </div>
+
                                 <label className="flex items-start space-x-3 cursor-pointer">
                                     <input
                                         type="checkbox"
-                                        checked={formData.acceptTerms}
-                                        onChange={(e) => handleInputChange('acceptTerms', e.target.checked)}
-                                        className={`mt-1 w-4 h-4 text-terracotta-600 border-gray-300 rounded focus:ring-terracotta-500 ${formErrors.acceptTerms ? 'border-red-500' : ''
+                                        checked={formData.acceptPolicy}
+                                        onChange={(e) => handleInputChange('acceptPolicy', e.target.checked)}
+                                        className={`mt-1 w-4 h-4 text-terracotta-600 border-gray-300 rounded focus:ring-terracotta-500 ${formErrors.acceptPolicy ? 'border-red-500' : ''
                                             }`}
                                     />
-                                    <span className="text-clay-600 text-sm">
-                                        Accepto les{' '}
-                                        <Link
-                                            to="/condicions"
-                                            className="text-terracotta-600 hover:underline font-medium"
-                                            target="_blank"
-                                        >
-                                            condicions d'ús
-                                        </Link>
-                                        {' '}i la{' '}
-                                        <Link
-                                            to="/politica-privacitat"
-                                            className="text-terracotta-600 hover:underline font-medium"
-                                            target="_blank"
-                                        >
-                                            política de privacitat
-                                        </Link>
-                                        . Entenc que la reserva es confirmarà per email i que puc cancel·lar fins 24h abans.
+                                    <span className="text-sm text-amber-800">
+                                        Accepto la política de cancel·lacions i entenc que els {calculateTotal()}€ només són reemborsables si cancel·lo amb més de 48h d'antelació
                                     </span>
                                 </label>
-                                {formErrors.acceptTerms && (
-                                    <p className="text-red-500 text-sm mt-2 ml-7">{formErrors.acceptTerms}</p>
+                                {formErrors.acceptPolicy && (
+                                    <p className="text-red-500 text-sm mt-2">{formErrors.acceptPolicy}</p>
                                 )}
                             </div>
 
                             {/* Submit */}
                             <motion.button
                                 type="submit"
-                                disabled={isSubmitting}
+                                onClick={handleSubmit}
+                                disabled={isSubmitting || !formData.acceptPolicy}
                                 className="w-full bg-terracotta-500 hover:bg-terracotta-600 disabled:bg-gray-400 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2"
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
@@ -561,21 +466,21 @@ const Booking = () => {
                                 {isSubmitting ? (
                                     <>
                                         <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
-                                        <span>Enviant reserva...</span>
+                                        <span>Processant reserva...</span>
                                     </>
                                 ) : (
                                     <>
                                         <Send className="w-5 h-5" />
-                                        <span>Confirmar reserva</span>
+                                        <span>Reservar i Pagar {calculateTotal()}€</span>
                                     </>
                                 )}
                             </motion.button>
 
                             <p className="text-center text-clay-500 text-sm mt-4">
-                                <strong>Recordatori:</strong> Rebràs un email de confirmació i t'enviarem un recordatori el dia abans
+                                <strong>Recordatori:</strong> Rebràs un email de confirmació i podràs triar la peça al local
                             </p>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </section>
