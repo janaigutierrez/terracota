@@ -1,5 +1,5 @@
 require('dotenv').config();
-const app = require('./terracota-backend/src/app'); // ⬅️ CANVI AQUÍ
+const app = require('./src/app'); // ⬅️ CANVI AQUÍ
 
 const PORT = process.env.PORT || 3001;
 
