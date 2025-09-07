@@ -1,5 +1,5 @@
 require('dotenv').config();
-const app = require('./terracota-backend/src/app');
+const app = require('./src/app'); // ✅ Path correcte dins del backend
 
 const PORT = process.env.PORT || 3001;
 
