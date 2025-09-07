@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import AdminLayout from '../../components/layout/AdminLayout';
 import { apiRequest } from '../../utils/constants';
+import { adminApiRequest, API_ENDPOINTS, isAuthenticated } from '/src/utils/constants';
 
 // TODO: ARREGLAR constants.js - problema amb URL duplicada
 // Actualment: baseURL = 'http://localhost:3001' + '/bookings' = INCORRECTE
