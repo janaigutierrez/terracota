@@ -99,14 +99,14 @@ const Booking = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
         if (!validateForm()) return
-
         setIsSubmitting(true)
 
         try {
             // Preparar dades per enviar
             const selectedOption = BOOKING_OPTIONS.find(opt => opt.id === formData.selectedOption)
+
+            // Dades per EmailJS
             const emailData = {
                 to_email: SITE_CONFIG.email,
                 from_name: formData.name,
@@ -121,20 +121,71 @@ const Booking = () => {
                 booking_id: `TER-${Date.now()}`
             }
 
-            // Enviar email amb EmailJS
-            const result = await emailjs.send(
-                EMAIL_CONFIG.serviceId,
-                EMAIL_CONFIG.templateId,
-                emailData,
-                EMAIL_CONFIG.publicKey
-            )
+            // Dades per Backend
+            const backendData = {
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                selectedOption: formData.selectedOption,
+                date: formData.date,
+                time: formData.time,
+                people: formData.people,
+                message: formData.message,
+                totalPrice: calculateTotal()
+            }
 
-            console.log('Reserva enviada correctament:', result)
+            // 1. Guardar al backend (prioritari)
+            console.log('📤 Enviant reserva al backend...', backendData)
+
+            const backendResponse = await fetch('http://localhost:3001/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(backendData)
+            })
+
+            const backendResult = await backendResponse.json()
+
+            if (!backendResponse.ok) {
+                throw new Error(`Backend error: ${backendResult.error || 'Error desconegut'}`)
+            }
+
+            console.log('✅ Reserva guardada al backend:', backendResult)
+
+            // 2. Enviar email amb EmailJS (secundari)
+            try {
+                const emailResult = await emailjs.send(
+                    EMAIL_CONFIG.serviceId,
+                    EMAIL_CONFIG.templateId,
+                    emailData,
+                    EMAIL_CONFIG.publicKey
+                )
+                console.log('📧 Email enviat correctament:', emailResult)
+            } catch (emailError) {
+                console.warn('⚠️ Error enviant email (però reserva guardada):', emailError)
+                // No fallem per l'email - la reserva ja està guardada
+            }
+
+            // 3. Mostrar èxit
+            console.log('🎉 Reserva completada amb èxit!')
             setSubmitted(true)
 
         } catch (error) {
-            console.error('Error enviant reserva:', error)
-            alert('Hi ha hagut un error enviant la reserva. Si us plau, truqueu-nos directament al ' + SITE_CONFIG.phone)
+            console.error('❌ Error processant reserva:', error)
+
+            // Missatge d'error més informatiu
+            let errorMessage = 'Hi ha hagut un error guardant la reserva.'
+
+            if (error.message.includes('Backend error')) {
+                errorMessage += ' Problema amb el servidor.'
+            } else if (error.message.includes('fetch')) {
+                errorMessage += ' Problema de connexió.'
+            }
+
+            errorMessage += ` Si us plau, truqueu-nos directament al ${SITE_CONFIG.phone}`
+
+            alert(errorMessage)
         } finally {
             setIsSubmitting(false)
         }
