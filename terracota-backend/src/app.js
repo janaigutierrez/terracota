@@ -22,10 +22,16 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// CORS configuration
+// CORS configuration - més permissiu
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-    credentials: true
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://terracotaceramiqueria.netlify.app'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Body parsing middleware
