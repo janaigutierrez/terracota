@@ -160,6 +160,6 @@ return (
         </motion.div>
     </div>
 );
-};
+
 
 export default AdminLogin;
