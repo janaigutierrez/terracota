@@ -7,7 +7,7 @@ const PRICING_DATA = [
     {
         id: 'basic',
         name: 'Tassa',
-        price: 6,
+        price: 10,
         originalPrice: null,
         description: 'Perfecta per començar la teva aventura ceràmica',
         features: [
@@ -26,7 +26,7 @@ const PRICING_DATA = [
     {
         id: 'medium',
         name: 'Plat',
-        price: 10,
+        price: 12,
         originalPrice: null,
         description: 'L\'opció més popular per expressions artístiques',
         features: [
@@ -39,15 +39,15 @@ const PRICING_DATA = [
             'Tècniques avançades incloses'
         ],
         popular: true,
-        image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68dc2?w=400&h=300&fit=crop&auto=format&q=80',
+        image: 'plat-bisque.avif',
         color: 'terracotta',
         estimatedTime: '60-90 min'
     },
     {
         id: 'premium',
         name: 'Peça decorativa',
-        price: 15,
-        originalPrice: 18,
+        price: 18,
+        originalPrice: 22,
         description: 'Per a creacions especials i regals únics',
         features: [
             'Gerro, figura o peça gran',
@@ -60,7 +60,7 @@ const PRICING_DATA = [
             'Certificat d\'autenticitat'
         ],
         popular: false,
-        image: 'https://images.unsplash.com/photo-1565193298755-de4c4ba5a151?w=400&h=300&fit=crop&auto=format&q=80',
+        image: 'gerro-bisque.avif',
         color: 'cream',
         estimatedTime: '90-120 min'
     }
@@ -106,10 +106,9 @@ const Pricing = () => {
                 >
                     <motion.div
                         variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="inline-flex items-center space-x-2 bg-terracotta-100 text-terracotta-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
+                        className="inline-flex items-center space-x-2 bg-white text-terracotta-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
                     >
-                        <Palette className="w-4 h-4" />
-                        <span>Preus transparents</span>
+
                     </motion.div>
 
                     <motion.h2
@@ -151,8 +150,8 @@ const Pricing = () => {
                             )}
 
                             <div className={`bg-gradient-to-br ${plan.popular
-                                    ? 'from-terracotta-50 to-cream-100 ring-2 ring-terracotta-200'
-                                    : 'from-white to-clay-50'
+                                ? 'from-terracotta-50 to-cream-100 ring-2 ring-terracotta-200'
+                                : 'from-white to-clay-50'
                                 } rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform group-hover:-translate-y-2`}>
 
                                 {/* Image */}
@@ -214,8 +213,8 @@ const Pricing = () => {
                                     <button
                                         onClick={() => handleBooking(plan.name)}
                                         className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 ${plan.popular
-                                                ? 'bg-terracotta-500 text-white hover:bg-terracotta-600 shadow-lg hover:shadow-xl'
-                                                : 'bg-clay-100 text-clay-700 hover:bg-terracotta-500 hover:text-white'
+                                            ? 'bg-terracotta-500 text-white hover:bg-terracotta-600 shadow-lg hover:shadow-xl'
+                                            : 'bg-clay-100 text-clay-700 hover:bg-terracotta-500 hover:text-white'
                                             }`}
                                     >
                                         Escollir {plan.name}
@@ -273,7 +272,7 @@ const Pricing = () => {
 
                     <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-6">
                         <div className="text-left">
-                            <h4 className="font-semibold text-clay-800 mb-2">✨ Materials inclosos:</h4>
+                            <h4 className="font-semibold text-clay-800 mb-2"> Materials inclosos:</h4>
                             <ul className="text-clay-600 space-y-1 text-sm">
                                 <li>• Peça ceràmica bisque de qualitat</li>
                                 <li>• Gamma completa de colors</li>
@@ -283,7 +282,7 @@ const Pricing = () => {
                         </div>
 
                         <div className="text-left">
-                            <h4 className="font-semibold text-clay-800 mb-2">🎯 Serveis inclosos:</h4>
+                            <h4 className="font-semibold text-clay-800 mb-2"> Serveis inclosos:</h4>
                             <ul className="text-clay-600 space-y-1 text-sm">
                                 <li>• Assessorament i tècniques</li>
                                 <li>• Cocció professional (1000°C)</li>
@@ -306,7 +305,7 @@ const Pricing = () => {
                             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                             className="text-terracotta-600 hover:text-terracotta-700 font-medium"
                         >
-                            Tens dubtes? Contacta'ns
+                            Tens dubtes? Contacta'ns!
                         </button>
                     </div>
                 </motion.div>

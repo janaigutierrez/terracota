@@ -5,6 +5,10 @@ import Layout from './components/layout/Layout'
 import Home from './pages/Home.jsx'
 import About from './pages/About'
 import NotFound from './pages/NotFound'
+import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
+import TermsConditions from './pages/TermsConditions.jsx'
+import LegalNotice from './pages/LegalNotice.jsx'
+import CookiePolicy from './pages/CookiePolicy.jsx'
 import './styles/globals.css'
 
 function App() {
@@ -22,6 +26,10 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/politica-privacitat" element={<PrivacyPolicy />} />
+              <Route path="/condicions" element={<TermsConditions />} />
+              <Route path="/avis-legal" element={<LegalNotice />} />
+              <Route path="/cookies" element={<CookiePolicy />} />
             </Routes>
           </AnimatePresence>
         </Layout>

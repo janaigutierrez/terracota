@@ -1,6 +1,6 @@
 // Site configuration
 export const SITE_CONFIG = {
-    name: 'Terracotta',
+    name: 'Terracota',
     tagline: 'Crea, pinta i endú-te la teva obra única',
     description: 'Paint-your-own pottery i cafeteria a Granollers. Espai creatiu per famílies, parelles i amics.',
     location: 'Granollers, Vallès Oriental',

@@ -8,7 +8,7 @@ const SPACES_DATA = [
         title: 'Taller de Ceràmica',
         description: 'Espai ampli i lluminós amb tot el material necessari per crear la teva obra única.',
         features: ['8 taules de treball', 'Materials professionals', 'Assessorament constant', 'Ambient relaxant'],
-        image: 'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&h=400&fit=crop&auto=format&q=80',
+        image: 'taller-ceramica.jpg',
         icon: Palette,
         color: 'terracotta',
         stats: '8 taules'
@@ -18,7 +18,7 @@ const SPACES_DATA = [
         title: 'Cafeteria Local',
         description: "Gaudeix d'un bon cafè i productes artesans mentre crees la teva obra.",
         features: ["Cafè d'especialitat", 'Pastissos casolans', 'Productes locals', 'Esmorzars i berenars'],
-        image: 'https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=600&h=400&fit=crop&auto=format&q=80',
+        image: 'cafe.jpg',
         icon: Coffee,
         color: 'clay',
         stats: 'Cafè artesà'

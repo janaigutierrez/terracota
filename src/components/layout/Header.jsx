@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Phone } from 'lucide-react'
 import { NAV_LINKS, SITE_CONFIG } from '../../utils/constants'
 import LanguageSelector from '../common/LanguageSelector'
-import React from 'react'
 
 const Header = ({ isScrolled }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -82,7 +81,7 @@ const Header = ({ isScrolled }) => {
 
                     {/* CTA, Language & Mobile Menu */}
                     <div className="flex items-center space-x-3">
-                        {/* Language Selector - només desktop */}
+                        {/* Language Selector */}
                         <div className="hidden md:block">
                             <LanguageSelector showText={false} />
                         </div>

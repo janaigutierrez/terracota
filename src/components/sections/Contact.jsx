@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
-import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Send, MessageCircle, Calendar } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, Instagram, Send, MessageCircle, Calendar } from 'lucide-react'
 import { ANIMATION_VARIANTS, SITE_CONFIG, OPENING_HOURS, SOCIAL_LINKS } from '../../utils/constants'
-import React from 'react'
 
 const CONTACT_METHODS = [
     {
@@ -59,8 +58,19 @@ const Contact = () => {
     })
 
     return (
-        <section className="section-padding bg-gradient-to-br from-clay-800 to-terracotta-900 text-white">
-            <div className="container-custom">
+        <section className="section-padding relative">
+            {/* Background Image */}
+            <div className="absolute inset-0">
+                <img
+                    src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&h=1080&fit=crop&crop=center&auto=format&q=80"
+                    alt="Ceramiqueria background"
+                    className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-clay-900/70 to-terracotta-900/60" />
+            </div>
+
+            {/* Content */}
+            <div className="container-custom relative z-10">
                 {/* Header */}
                 <motion.div
                     variants={ANIMATION_VARIANTS.staggerContainer}
@@ -71,10 +81,8 @@ const Contact = () => {
                 >
                     <motion.div
                         variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
+                        className="inline-flex items-center space-x-2 bg-transparent text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
                     >
-                        <MessageCircle className="w-4 h-4" />
-                        <span>Estem aquí per ajudar-te</span>
                     </motion.div>
 
                     <motion.h2
@@ -90,9 +98,9 @@ const Contact = () => {
 
                     <motion.p
                         variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="text-large text-cream-200 max-w-2xl mx-auto"
+                        className="text-large !text-terracota-200 max-w-2xl mx-auto"
                         style={{
-                            textShadow: '2px 2px 4px rgba(0,0,0,0.8), 1px 1px 2px rgba(0,0,0,0.5)'
+                            textShadow: '2px 2px 4px rgba(0,0,0,8), 1px 1px 2px rgba(0,0,0,0.5)'
                         }}
                     >
                         Tens dubtes? Vols reservar? O simplement vols saludar?
@@ -112,7 +120,7 @@ const Contact = () => {
                     >
                         <motion.h3
                             variants={ANIMATION_VARIANTS.fadeInUp}
-                            className="heading-md text-white mb-6"
+                            className="heading-md !text-white mb-6"
                             style={{
                                 textShadow: '2px 2px 4px rgba(0,0,0,0.8), 1px 1px 2px rgba(0,0,0,0.5)'
                             }}
@@ -159,7 +167,7 @@ const Contact = () => {
 
                             {/* Location */}
                             <motion.div variants={ANIMATION_VARIANTS.fadeInUp}>
-                                <h3 className="heading-md text-white mb-6 flex items-center space-x-2">
+                                <h3 className="heading-md !text-white mb-6 flex items-center space-x-2">
                                     <MapPin className="w-6 h-6 text-terracotta-400" />
                                     <span>On som?</span>
                                 </h3>
@@ -203,7 +211,7 @@ const Contact = () => {
                                                 </p>
                                             </div>
                                             <a
-                                                href="https://goo.gl/maps/porxada-granollers"
+                                                href="https://maps.app.goo.gl/yMEiNxB7HSrDjz1Q9"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="bg-terracotta-500 hover:bg-terracotta-600 text-white px-3 py-2 rounded-lg text-xs font-medium transition-colors"
@@ -217,7 +225,7 @@ const Contact = () => {
 
                             {/* Opening Hours */}
                             <motion.div variants={ANIMATION_VARIANTS.fadeInUp}>
-                                <h3 className="heading-md text-white mb-6 flex items-center space-x-2">
+                                <h3 className="heading-md !text-white mb-6 flex items-center space-x-2">
                                     <Clock className="w-6 h-6 text-terracotta-400" />
                                     <span>Horaris</span>
                                 </h3>
@@ -258,9 +266,9 @@ const Contact = () => {
                                                 <span className="text-cream-200 font-medium text-sm">Info important:</span>
                                             </div>
                                             <p className="text-cream-300 text-sm">
-                                                🎯 <strong>Recomanem reservar</strong> per assegurar plaça<br />
-                                                ☕ La cafeteria està oberta en els mateixos horaris<br />
-                                                🏺 Recollida de peces: qualsevol dia d'obertura
+                                                - Recomanem reservar per assegurar plaça<br />
+                                                - La cafeteria està oberta en els mateixos horaris<br />
+                                                - Recollida de peces: qualsevol dia d'obertura
                                             </p>
                                         </div>
                                     </div>
@@ -279,10 +287,10 @@ const Contact = () => {
                     className="text-center mt-16"
                 >
                     <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
-                        <h3 className="heading-md text-white mb-4">T'esperem aviat! 🎨</h3>
+                        <h3 className="heading-md !text-white mb-4">T'esperem aviat! </h3>
                         <p className="text-cream-200 mb-6 max-w-2xl mx-auto">
                             Vine a descobrir el món de la ceràmica en un ambient relaxant.
-                            El teu primer cafè va per nosaltres!
+                            Si t'animes a pintar per primer cop et convidem a un cafè!
                         </p>
                         <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                             <button

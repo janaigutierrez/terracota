@@ -1,15 +1,15 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { Calendar, Clock, Users, Phone, Mail, User, MessageSquare, Check, AlertCircle, Send, Heart } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Calendar, Clock, Users, Phone, Mail, User, MessageSquare, Check, AlertCircle, Send } from 'lucide-react'
 import { ANIMATION_VARIANTS, SITE_CONFIG, EMAIL_CONFIG } from '../../utils/constants'
 import emailjs from '@emailjs/browser'
-import React from 'react'
 
 const BOOKING_OPTIONS = [
     {
         id: 'tassa',
         name: 'Tassa',
-        price: 6,
+        price: 8,
         duration: '45 min',
         description: 'Perfecta per començar',
         maxPeople: 1
@@ -17,7 +17,7 @@ const BOOKING_OPTIONS = [
     {
         id: 'plat',
         name: 'Plat',
-        price: 10,
+        price: 12,
         duration: '60-90 min',
         description: 'L\'opció més popular',
         maxPeople: 1
@@ -25,7 +25,7 @@ const BOOKING_OPTIONS = [
     {
         id: 'decorativa',
         name: 'Peça decorativa',
-        price: 15,
+        price: 18,
         duration: '90-120 min',
         description: 'Per creacions especials',
         maxPeople: 1
@@ -221,10 +221,9 @@ const Booking = () => {
                 >
                     <motion.div
                         variants={ANIMATION_VARIANTS.fadeInUp}
-                        className="inline-flex items-center space-x-2 bg-terracotta-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
+                        className="inline-flex items-center space-x-2 bg-gradient-to-br from-terracotta-100 to-cream-200 text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
                     >
-                        <Heart className="w-4 h-4" />
-                        <span>Reserva la teva experiència</span>
+
                     </motion.div>
 
                     <motion.h2
@@ -258,8 +257,8 @@ const Booking = () => {
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all ${formData.selectedOption === option.id
-                                                ? 'border-terracotta-500 bg-terracotta-50'
-                                                : 'border-gray-200 hover:border-terracotta-300'
+                                            ? 'border-terracotta-500 bg-terracotta-50'
+                                            : 'border-gray-200 hover:border-terracotta-300'
                                             }`}
                                         onClick={() => handleInputChange('selectedOption', option.id)}
                                     >
@@ -475,8 +474,23 @@ const Booking = () => {
                                             }`}
                                     />
                                     <span className="text-clay-600 text-sm">
-                                        Accepto les condicions i la política de privacitat.
-                                        Entenc que la reserva es confirmarà per email i que puc cancel·lar fins 24h abans.
+                                        Accepto les{' '}
+                                        <Link
+                                            to="/condicions"
+                                            className="text-terracotta-600 hover:underline font-medium"
+                                            target="_blank"
+                                        >
+                                            condicions d'ús
+                                        </Link>
+                                        {' '}i la{' '}
+                                        <Link
+                                            to="/politica-privacitat"
+                                            className="text-terracotta-600 hover:underline font-medium"
+                                            target="_blank"
+                                        >
+                                            política de privacitat
+                                        </Link>
+                                        . Entenc que la reserva es confirmarà per email i que puc cancel·lar fins 24h abans.
                                     </span>
                                 </label>
                                 {formErrors.acceptTerms && (
@@ -506,7 +520,7 @@ const Booking = () => {
                             </motion.button>
 
                             <p className="text-center text-clay-500 text-sm mt-4">
-                                💡 <strong>Recordatori:</strong> Rebràs un email de confirmació i t'enviarem un recordatori el dia abans
+                                <strong>Recordatori:</strong> Rebràs un email de confirmació i t'enviarem un recordatori el dia abans
                             </p>
                         </div>
                     </form>

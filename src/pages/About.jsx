@@ -46,7 +46,7 @@ const About = () => {
                             variants={ANIMATION_VARIANTS.fadeInUp}
                             className="text-large"
                         >
-                            Com va néixer {SITE_CONFIG.name} i per què som únics a {SITE_CONFIG.location}
+                            Com va néixer {SITE_CONFIG.name} i per què som únics.
                         </motion.p>
                     </motion.div>
                 </div>
@@ -66,7 +66,7 @@ const About = () => {
                             <motion.div variants={ANIMATION_VARIANTS.fadeInUp}>
                                 <h2 className="heading-md mb-6 text-center">Una idea nascuda de la passió</h2>
                                 <p className="text-large mb-8 text-center text-clay-600">
-                                    La història de Terracotta comença amb dues persones que comparteixen l'amor per la creativitat,
+                                    La història de Terracota comença amb dues persones que comparteixen l'amor per la creativitat,
                                     el cafè de qualitat i la comunitat local.
                                 </p>
                             </motion.div>
@@ -118,7 +118,7 @@ const About = () => {
                             >
                                 <h3 className="heading-md mb-4">Més que una ceramiqueria</h3>
                                 <p className="text-large text-clay-600 mb-6">
-                                    Terracotta és un espai cultural on cada persona pot descobrir el seu artista interior
+                                    Terracota és un espai cultural on cada persona pot descobrir el seu artista interior
                                     mentre gaudeix d'un moment de pau i creativitat.
                                 </p>
                                 <Link to="/" className="btn-primary">
