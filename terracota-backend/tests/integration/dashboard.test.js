@@ -1,3 +1,6 @@
+const request = require('supertest');
+const app = require('../../src/app');
+
 describe('Dashboard Integration Tests', () => {
 
     describe('GET /api/dashboard/stats', () => {

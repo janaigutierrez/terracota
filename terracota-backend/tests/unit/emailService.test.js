@@ -1,9 +1,12 @@
 const emailService = require('../../src/services/emailService');
 
-// Mock nodemailer
+// Mock nodemailer correcte
 jest.mock('nodemailer', () => ({
-    createTransporter: jest.fn(() => ({
-        sendMail: jest.fn().mockResolvedValue({ messageId: 'test-message-id' })
+    createTransport: jest.fn(() => ({
+        sendMail: jest.fn().mockResolvedValue({
+            messageId: 'test-message-id',
+            response: '250 Message queued'
+        })
     }))
 }));
 
@@ -24,7 +27,7 @@ describe('EmailService', () => {
     };
 
     beforeEach(() => {
-        resetMocks();
+        jest.clearAllMocks();
     });
 
     describe('sendBookingConfirmation', () => {
@@ -33,6 +36,19 @@ describe('EmailService', () => {
 
             expect(result.success).toBe(true);
             expect(result.messageId).toBe('test-message-id');
+        });
+
+        test('should handle email send errors', async () => {
+            // Mock error
+            const nodemailer = require('nodemailer');
+            nodemailer.createTransport().sendMail.mockRejectedValue(
+                new Error('SMTP Error')
+            );
+
+            const result = await emailService.sendBookingConfirmation(mockBooking, mockClient);
+
+            expect(result.success).toBe(false);
+            expect(result.error).toContain('SMTP Error');
         });
     });
 
@@ -54,6 +70,22 @@ describe('EmailService', () => {
     describe('sendBookingReminder', () => {
         test('should send booking reminder', async () => {
             const result = await emailService.sendBookingReminder(mockBooking, mockClient);
+
+            expect(result.success).toBe(true);
+            expect(result.messageId).toBe('test-message-id');
+        });
+    });
+
+    describe('sendContactMessage', () => {
+        test('should send contact form message', async () => {
+            const contactData = {
+                name: 'Test User',
+                email: 'test@example.com',
+                subject: 'Test Subject',
+                message: 'Test message content'
+            };
+
+            const result = await emailService.sendContactMessage(contactData);
 
             expect(result.success).toBe(true);
             expect(result.messageId).toBe('test-message-id');

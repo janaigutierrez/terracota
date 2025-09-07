@@ -9,6 +9,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
 import TermsConditions from './pages/TermsConditions.jsx'
 import LegalNotice from './pages/LegalNotice.jsx'
 import CookiePolicy from './pages/CookiePolicy.jsx'
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
 import './styles/globals.css'
 
 function App() {
@@ -30,6 +32,9 @@ function App() {
               <Route path="/condicions" element={<TermsConditions />} />
               <Route path="/avis-legal" element={<LegalNotice />} />
               <Route path="/cookies" element={<CookiePolicy />} />
+              {/* Rutes admin */}
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
             </Routes>
           </AnimatePresence>
         </Layout>
