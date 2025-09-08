@@ -1,9 +1,12 @@
+// terracota-backend/src/routes/index.js - VERSIÓ CORREGIDA
+
 const express = require('express');
 const authRoutes = require('./auth');
 const bookingRoutes = require('./bookings');
 const contactRoutes = require('./contact');
 const dashboardRoutes = require('./dashboard');
-const pieceCategoriesRoutes = require('./pieceCategories'); // ✅ NOU
+const inventoryRoutes = require('./inventory'); // ✅ AFEGIT
+const pieceCategoriesRoutes = require('./pieceCategories');
 
 const router = express.Router();
 
@@ -11,10 +14,11 @@ const router = express.Router();
 router.use('/auth', authRoutes);
 router.use('/bookings', bookingRoutes);
 router.use('/contact', contactRoutes);
-router.use('/piece-categories', pieceCategoriesRoutes); // ✅ NOU
+router.use('/piece-categories', pieceCategoriesRoutes);
 
 // 🔐 ROUTES ADMIN
 router.use('/dashboard', dashboardRoutes);
+router.use('/inventory', inventoryRoutes); // ✅ AFEGIT
 
 // 📊 HEALTH CHECK
 router.get('/health', (req, res) => {
@@ -22,12 +26,13 @@ router.get('/health', (req, res) => {
         success: true,
         message: 'Terracotta API funcionant correctament! 🏺',
         timestamp: new Date().toISOString(),
-        version: '2.0.0', // ✅ Versió actualitzada
+        version: '2.0.0',
         features: [
             'Sistema 8€/persona',
             'Política cancel·lacions 48h',
             'Categories de peces',
             'Dashboard admin',
+            'Inventari complet', // ✅ AFEGIT
             'Notificacions automàtiques'
         ]
     });
@@ -54,6 +59,11 @@ router.get('/info', (req, res) => {
                 'POST /api/bookings/:id/cancel - Cancel·lar',
                 'PUT /api/bookings/:id/attended - Marcar assistència',
                 'PUT /api/bookings/:id/complete - Completar',
+                'GET /api/inventory - Llistar inventari', // ✅ AFEGIT
+                'POST /api/inventory - Crear article', // ✅ AFEGIT
+                'PUT /api/inventory/:id - Actualitzar article', // ✅ AFEGIT
+                'DELETE /api/inventory/:id - Eliminar article', // ✅ AFEGIT
+                'POST /api/inventory/:id/movement - Moviment stock', // ✅ AFEGIT
                 'POST /api/piece-categories - Gestionar categories'
             ]
         },
@@ -77,7 +87,9 @@ router.use('*', (req, res) => {
             'POST /api/bookings',
             'GET /api/piece-categories',
             'POST /api/contact',
-            'POST /api/auth/login'
+            'POST /api/auth/login',
+            'GET /api/inventory', // ✅ AFEGIT
+            'POST /api/inventory' // ✅ AFEGIT
         ]
     });
 });

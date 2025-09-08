@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Moon, Sun } from 'lucide-react';
+import { useDarkMode } from '../../hooks/useDarkMode';
 import {
     LayoutDashboard,
     Calendar,
@@ -22,6 +24,7 @@ import {
     CreditCard,
     AlertTriangle
 } from 'lucide-react';
+const { isDark, toggleDarkMode } = useDarkMode();
 
 const AdminLayout = ({ children }) => {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -321,7 +324,8 @@ const AdminLayout = ({ children }) => {
             <div className={sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'}>
                 {/* Top bar */}
                 <div className="sticky top-0 z-40 lg:mx-auto lg:max-w-none">
-                    <div className="flex h-16 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+                    <div className="flex h-16 items-center gap-x-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8"
+                    >
                         {/* Mobile menu button */}
                         <button
                             type="button"
@@ -355,7 +359,17 @@ const AdminLayout = ({ children }) => {
                                     <span className="text-xs text-white font-medium">3</span>
                                 </span>
                             </button>
-
+                            <button
+                                onClick={toggleDarkMode}
+                                className="relative -m-2.5 p-2.5 text-gray-400 hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-200 transition-colors"
+                                title={isDark ? 'Mode clar' : 'Mode fosc'}
+                            >
+                                {isDark ? (
+                                    <Sun className="h-5 w-5" />
+                                ) : (
+                                    <Moon className="h-5 w-5" />
+                                )}
+                            </button>
                             {/* Quick stats */}
                             <div className="hidden lg:flex items-center gap-4 text-sm">
                                 <div className="text-center">
