@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Moon, Sun } from 'lucide-react';
-import { useDarkMode } from '../../hooks/useDarkMode';
 import {
     LayoutDashboard,
     Calendar,
@@ -24,7 +22,6 @@ import {
     CreditCard,
     AlertTriangle
 } from 'lucide-react';
-const { isDark, toggleDarkMode } = useDarkMode();
 
 const AdminLayout = ({ children }) => {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -359,17 +356,7 @@ const AdminLayout = ({ children }) => {
                                     <span className="text-xs text-white font-medium">3</span>
                                 </span>
                             </button>
-                            <button
-                                onClick={toggleDarkMode}
-                                className="relative -m-2.5 p-2.5 text-gray-400 hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-200 transition-colors"
-                                title={isDark ? 'Mode clar' : 'Mode fosc'}
-                            >
-                                {isDark ? (
-                                    <Sun className="h-5 w-5" />
-                                ) : (
-                                    <Moon className="h-5 w-5" />
-                                )}
-                            </button>
+
                             {/* Quick stats */}
                             <div className="hidden lg:flex items-center gap-4 text-sm">
                                 <div className="text-center">
