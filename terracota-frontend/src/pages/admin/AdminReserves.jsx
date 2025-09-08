@@ -1,13 +1,11 @@
-// ========================================
-// 1. src/pages/admin/AdminReserves.jsx (REFACTORITZAT - 125 línies)
-// ========================================
+
 import { useState, useEffect } from 'react';
 import { Calendar, RefreshCw, Clock, CheckCircle, DollarSign } from 'lucide-react';
 import AdminLayout from '../../components/layout/AdminLayout';
 import StatCard from '../../components/admin/common/StatCard';
 import SearchFilter from '../../components/admin/common/SearchFilter';
 import BookingCard from '../../components/admin/reserves/BookingCard';
-import PieceSelectionModal from '../../components/admin/reserves/PieceSelectionModal';
+import PieceSelectionModal from '../../components/admin/reserves/pieceSelectionModal';
 import LoadingSpinner from '../../components/admin/common/LoadingSpinner';
 import { useBookings } from '../../hooks/useBookings';
 import { isAuthenticated } from '../../utils/constants';
