@@ -49,7 +49,7 @@ const Header = ({ isScrolled }) => {
                         >
                             T
                         </motion.div>
-                        <span className="text-xl font-bold text-clay-800 group-hover:text-terracotta-600 transition-colors">
+                        <span className="text-xl font-bold text-terracotta-500 group-hover:text-terracotta-600 transition-colors">
                             {SITE_CONFIG.name}
                         </span>
                     </Link>
@@ -61,7 +61,7 @@ const Header = ({ isScrolled }) => {
                                 {link.href.startsWith('#') ? (
                                     <button
                                         onClick={() => scrollToSection(link.id)}
-                                        className="text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 relative group text-sm"
+                                        className="text-terracotta-500 hover:text-terracotta-600 font-medium transition-colors duration-200 relative group text-sm"
                                     >
                                         {link.name}
                                         <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-terracotta-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
@@ -69,7 +69,7 @@ const Header = ({ isScrolled }) => {
                                 ) : (
                                     <Link
                                         to={link.href}
-                                        className="text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 relative group text-sm"
+                                        className="text-terracotta-500 hover:text-terracotta-600 font-medium transition-colors duration-200 relative group text-sm"
                                     >
                                         {link.name}
                                         <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-terracotta-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
@@ -98,7 +98,7 @@ const Header = ({ isScrolled }) => {
                         {/* Mobile Menu Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="lg:hidden p-2 text-clay-700 hover:text-terracotta-600 transition-colors"
+                            className="lg:hidden p-2 text-terracotta-500 hover:text-terracotta-600 transition-colors"
                         >
                             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                         </button>
@@ -122,7 +122,7 @@ const Header = ({ isScrolled }) => {
                                             {link.href.startsWith('#') ? (
                                                 <button
                                                     onClick={() => handleNavClick(link)}
-                                                    className="block text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 py-2 text-left"
+                                                    className="block text-terracotta-500 hover:text-terracotta-600 font-medium transition-colors duration-200 py-2 text-left"
                                                 >
                                                     {link.name}
                                                 </button>
@@ -130,7 +130,7 @@ const Header = ({ isScrolled }) => {
                                                 <Link
                                                     to={link.href}
                                                     onClick={() => handleNavClick(link)}
-                                                    className="block text-clay-700 hover:text-terracotta-600 font-medium transition-colors duration-200 py-2"
+                                                    className="block text-terracotta-500 hover:text-terracotta-600 font-medium transition-colors duration-200 py-2"
                                                 >
                                                     {link.name}
                                                 </Link>

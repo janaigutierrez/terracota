@@ -40,9 +40,9 @@ export const SOCIAL_LINKS = {
 
 // Configuració EmailJS (afegir a constants.js)
 export const EMAIL_CONFIG = {
-    serviceId: 'service_658fwlk', // Crear a emailjs.com
-    templateId: 'template_1wufg0p',  // Crear template
-    publicKey: 'your_public_key'     // De la teva compte EmailJS
+    serviceId: 'service_658fwlk',
+    templateId: 'template_1wufg0p',
+    publicKey: 'your_public_key'
 }
 
 // Animation variants for Framer Motion
@@ -81,12 +81,11 @@ export const ANIMATION_VARIANTS = {
     }
 }
 
-// ✅ API Configuration ARREGLAT
 export const API_CONFIG = {
     baseURL: import.meta.env.PROD
-        ? 'https://terracota.onrender.com'     // ⬅️ SENSE /api
-        : 'http://localhost:3001',              // ⬅️ SENSE /api
-    timeout: 10000, // 10 segons timeout
+        ? 'https://terracota.onrender.com'
+        : 'http://localhost:3001',
+    timeout: 10000,
     headers: {
         'Content-Type': 'application/json'
     }
@@ -107,7 +106,7 @@ export const API_ENDPOINTS = {
         list: '/api/bookings',
         getById: (id) => `/api/bookings/${id}`,
         updateStatus: (id) => `/api/bookings/${id}/status`,
-        today: '/api/bookings/admin/today',                    // ⬅️ AMB /api
+        today: '/api/bookings/admin/today',
         markAttended: (id) => `/api/bookings/${id}/attended`,
         complete: (id) => `/api/bookings/${id}/complete`,
         cancel: (id) => `/api/bookings/${id}/cancel`
@@ -147,24 +146,20 @@ export const API_ENDPOINTS = {
     health: '/api/health'
 }
 
-// ✅ Helper function ARREGLADA amb autenticació
 export const apiRequest = async (endpoint, options = {}) => {
     const url = `${API_CONFIG.baseURL}${endpoint}`
 
-    // ✅ OBTENIR TOKEN DEL LOCALSTORAGE
     const token = localStorage.getItem('adminToken');
 
     const config = {
         method: 'GET',
         headers: {
             ...API_CONFIG.headers,
-            // ✅ AFEGIR AUTHORIZATION HEADER SI HI HA TOKEN
             ...(token && { 'Authorization': `Bearer ${token}` })
         },
         ...options
     }
 
-    // ✅ Si hi ha body, convertir a JSON
     if (config.body && typeof config.body === 'object') {
         config.body = JSON.stringify(config.body);
     }
@@ -172,13 +167,10 @@ export const apiRequest = async (endpoint, options = {}) => {
     try {
         const response = await fetch(url, config)
 
-        // ✅ GESTIÓ ERROR 401 (token expirat)
         if (response.status === 401) {
-            // Token expirat, redirigir a login
             localStorage.removeItem('adminToken');
             localStorage.removeItem('adminData');
 
-            // Si estem en ruta admin, redirigir a login
             if (window.location.pathname.startsWith('/admin')) {
                 window.location.href = '/admin';
                 return;
@@ -201,12 +193,10 @@ export const apiRequest = async (endpoint, options = {}) => {
     }
 }
 
-// ✅ Helper específic per requests admin (amb token obligatori)
 export const adminApiRequest = async (endpoint, options = {}) => {
     const token = localStorage.getItem('adminToken');
 
     if (!token) {
-        // No hi ha token, redirigir a login
         window.location.href = '/admin';
         throw new Error('No authentication token');
     }
@@ -220,7 +210,6 @@ export const adminApiRequest = async (endpoint, options = {}) => {
     });
 }
 
-// ✅ Helper per verificar si usuari està autenticat
 export const isAuthenticated = () => {
     const token = localStorage.getItem('adminToken');
     const adminData = localStorage.getItem('adminData');
@@ -228,7 +217,6 @@ export const isAuthenticated = () => {
     return !!(token && adminData);
 }
 
-// ✅ Helper per obtenir dades admin
 export const getAdminData = () => {
     const adminData = localStorage.getItem('adminData');
 

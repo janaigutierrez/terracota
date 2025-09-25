@@ -11,7 +11,7 @@ import LegalNotice from './pages/LegalNotice.jsx'
 import CookiePolicy from './pages/CookiePolicy.jsx'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
-// Futures pàgines admin
+
 import AdminReserves from './pages/admin/AdminReserves'
 import AdminTPV from './pages/admin/AdminTPV'
 import AdminInventory from './pages/admin/AdminInventory'

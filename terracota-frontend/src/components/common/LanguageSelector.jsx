@@ -19,7 +19,7 @@ const LanguageSelector = ({ className = '', showText = true }) => {
         <div className={`relative ${className}`}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center space-x-2 text-clay-700 hover:text-terracotta-600 transition-colors p-2 rounded-md hover:bg-terracotta-50"
+                className="flex items-center space-x-2 text-terracotta-500 hover:text-terracotta-600 transition-colors p-2 rounded-md hover:bg-terracotta-50"
             >
                 <Globe className="w-4 h-4" />
                 <span className="text-lg">{currentLanguage.flag}</span>
